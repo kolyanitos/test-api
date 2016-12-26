@@ -1,4 +1,13 @@
 test-api
 ========
+Symfony 3 test REST API
 
-A Symfony project created on December 24, 2016, 5:34 pm.
+Uses mongodb as db and angular on front. API docs located at `/docs`
+
+Install assets:
+```
+cd media
+npm i
+bower i
+gulp
+```
