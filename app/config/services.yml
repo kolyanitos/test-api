@@ -1,9 +1,39 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
 parameters:
-#    parameter_name: value
+    app.image.repository_class: 'AppBundle\Repository\ImageRepository'
+    app.image.document_class: 'AppBundle\Document\Image'
+    app.image_tag.document_class: 'AppBundle\Document\ImageTag'
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    # REPOSITORY
+
+    app.repository.image_repository:
+        class: "%app.image.repository_class%"
+        factory:  ["@doctrine.odm.mongodb.document_manager", getRepository]
+        arguments:
+            - "%app.image.document_class%"
+
+    # FORM
+
+    app.form.type.image:
+        class: AppBundle\Form\Type\ImageType
+        tags:
+            - { name: form.type, alias: image_form }
+
+    app.form.type.image_tag:
+        class: AppBundle\Form\Type\ImageTagType
+        tags:
+            - { name: form.type, alias: image_tag_form }
+
+    app.form.handler.form_handler:
+        class: AppBundle\Form\Handler\FormHandler
+        arguments:
+            - "@form.factory"
+            - "@app.form.type.image"
+
+    # HANDLER
+
+    app.handler.images_handler:
+        class: AppBundle\Handler\ImagesHandler
+        arguments:
+            - "@app.form.handler.form_handler"
+            - "@app.repository.image_repository"

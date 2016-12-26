@@ -1,0 +1,11 @@
+doctrine_mongodb:
+    connections:
+        default:
+            server: "mongodb://localhost:27017"
+            options: {}
+    default_database: test_api
+    document_managers:
+        default:
+            mappings:
+                AppBundle: ~
+            auto_mapping: true

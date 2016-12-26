@@ -1,0 +1,11 @@
+# File uploader bundle
+liip_imagine:
+    filter_sets:
+        images:
+            jpeg_quality: 95
+            format: jpeg
+            post_processors:
+                jpegoptim: { strip_all: true, max: 95, progressive: true }
+                optipng: { strip_all: true }
+            filters:
+                thumbnail: { size: [175, 175], mode: outbound }

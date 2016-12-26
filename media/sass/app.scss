@@ -1,0 +1,40 @@
+// Override bootstrap variables
+@import "app/variables";
+
+@import "fonts/roboto";
+@import "fonts/fa";
+
+// Bootstrap
+@import "bootstrap/bootstrap/_mixins";
+
+// Global definition of media queries
+@import "app/media-queries";
+// Utilities 
+@import "app/utils-definitions";
+
+// Bootstrap reset
+@import "app/bootstrap-reset";
+
+// Typography
+@import "app/typo";
+
+// Layout
+@import "app/layout";
+
+// Plugins
+@import "app/notify";
+
+// Utilities
+@import "app/utils";
+
+// Material
+@import "app/material/colors";
+@import "app/material/welcome";
+@import "app/material/cards";
+@import "app/material/md-forms";
+@import "app/material/md-list";
+@import "app/material/md-inputs";
+@import "app/material/ngmaterial";
+@import "app/material/no-animate";
+
+@import "app/custom";

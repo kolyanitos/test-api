@@ -2,6 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: bundle/fos_rest.yml }
+    - { resource: bundle/nelmio_cors.yml }
+    - { resource: bundle/nelmio_api_doc.yml }
+    - { resource: bundle/vich_uploader.yml }
+    - { resource: bundle/liip_imagine.yml }
+    - { resource: bundle/doctrine_mongodb.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration

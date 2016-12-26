@@ -1,0 +1,12 @@
+# File uploader bundle
+vich_uploader:
+    db_driver: mongodb # or mongodb or propel or phpcr
+
+    mappings:
+        images:
+            namer:              vich_uploader.namer_uniqid
+            uri_prefix:         /uploads/images
+            upload_destination: "%kernel.root_dir%/../web/uploads/images"
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true

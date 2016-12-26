@@ -1,0 +1,44 @@
+<md-dialog aria-label="" flex="50">
+  <form name="imageForm" ng-submit="submit(imageForm)">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ actionType }} image</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="hide()">
+          <md-icon md-svg-src="/assets/img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content class="p-lg">
+      <h3 class="md-title">Select image <span ng-if="!item.id" class="text-danger">(required)</span></h3>
+
+      <choose-file data-file-name="imageName" layout="row">
+        <input id="upload" class="ng-hide" type="file" ngf-select ng-model="item.imageFile" name="image"
+               accept="image/*" ngf-max-size="100MB"
+               ngf-model-invalid="invalidImage"/>
+
+        <md-input-container layout="column" flex="40" class="md-block m0">
+          <input type="text" ng-model="item.imageFile.name" aria-label="file" disabled layout-align="end end">
+        </md-input-container>
+
+        <label for="upload" class="md-button md-fab md-mini m0">
+          <md-icon class="material-icons">attach_file</md-icon>
+        </label>
+      </choose-file>
+
+      <div ng-messages="invalidImage.$errorMessages">
+        <div ng-message="maxSize" class="text-danger">
+          {{ invalidIcon.size / 1000000|number:1 }} mb, 100mb limit
+        </div>
+      </div>
+
+      <h3 class="md-title">Enter tags</h3>
+
+      <md-chips ng-model="item.tags" readonly="false" md-removable="true"
+                md-enable-chip-edit="true" placeholder="Tag name"></md-chips>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button type="submit" class="md-primary">{{ actionType }} image</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

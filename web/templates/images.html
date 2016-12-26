@@ -1,0 +1,107 @@
+<div ng-controller="imagesController as c" class="p-lg">
+  <div class="container">
+    <md-button ng-click="c.addModal($event)" class="md-raised md-primary md-hue-2 wd-wide m0">
+      Add image
+    </md-button>
+
+    <div ng-controller="smartTableController as st"
+         data-table-url="/api/images"
+         data-action-url="/api/images/"
+         data-by-page="1">
+      <div class="table-responsive mt-lg">
+        <table class="table table-bordered table-striped" st-pipe="st.callServer" st-table="st.displayed"
+               ng-class="{'whirl ringed': st.isLoading}">
+          <thead>
+          <tr>
+            <th>
+              <span>
+                Image
+              </span>
+            </th>
+
+            <th>
+              <span>
+                Tags
+              </span>
+
+              <em class="fa fa-filter text-green fa-lg pull-right"></em>
+
+              <div>
+                <input class="mt-sm form-control" st-search="tags"
+                       placeholder="Search by tag"/>
+              </div>
+            </th>
+
+            <th>
+              <span>
+                Actions
+              </span>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr ng-repeat="row in st.rows" ng-show="st.rows.length">
+            <td>
+              <div>
+                <a ng-href="{{row.image_path}}" target="_blank">
+                  <img ng-src="{{row.image_path}}" width="200"/>
+                </a>
+              </div>
+            </td>
+
+            <td class="text-left">
+              <md-chips class="custom-chips" ng-model="row.tags" readonly="true"
+                        md-removable="false">
+                <md-chip-template>
+                  <span>
+                    <strong>{{$chip.tag_name}}</strong>
+                  </span>
+                </md-chip-template>
+              </md-chips>
+            </td>
+
+            <td>
+              <md-button ng-click="c.editModal($event, st.actionUrl, row.id)"
+                         class="md-raised md-primary">
+                Edit
+              </md-button>
+
+              <md-button ng-click="st.remove(row.id)" class="ml-lg md-raised md-warn">
+                Delete
+              </md-button>
+            </td>
+          </tr>
+          <tr ng-show="!st.rows.length">
+            <td class="text-center" colspan="3">
+              <i>No images found</i>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td class="text-center" colspan="3">
+              <div class="pull-left" st-pagination=""
+                   st-template="templates/table/pagination.tmpl.html"
+                   st-items-by-page="st.itemsByPage"></div>
+
+              <div class="pull-right">
+                <div class="btn-group ml-sm" role="group" aria-label="label">
+
+                  <md-button ng-repeat="item in [1, 5, 10]" ng-click="st.itemsByPage = item" class=""
+                             ng-class="{'md-raised': st.itemsByPage == {{ item }} }">
+                    <md-tooltip md-direction="top">
+                      Items {{ item }} per page
+                    </md-tooltip>
+                    {{ item }}
+                  </md-button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

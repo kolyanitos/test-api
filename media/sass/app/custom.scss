@@ -1,0 +1,19 @@
+.select-page {
+  width: 50px;
+  text-align: center;
+}
+.pagination li a input {
+  padding: 0;
+  margin: -5px 0;
+}
+.table {
+  background: #fff;
+}
+.table > thead > tr > th {
+  vertical-align: top;
+}
+.table > tbody > tr {
+  &:hover {
+    background: rgba(159, 168, 218, 0.19);
+  }
+}

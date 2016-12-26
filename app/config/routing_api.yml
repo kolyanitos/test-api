@@ -1,0 +1,4 @@
+images:
+    type: rest
+    prefix: /
+    resource: AppBundle\Controller\ImagesController

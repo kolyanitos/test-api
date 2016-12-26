@@ -14,3 +14,10 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+!/web/uploads/images
+/web/uploads/images/*
+!/web/uploads/images/.gitkeep
+/.idea/
+/media/.sass-cache/
+/media/bower_components/
+/media/node_modules/

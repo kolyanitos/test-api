@@ -1,0 +1,23 @@
+@mixin fontdef-woff($FontPath, $FontName, $FontVersion:"1.0.0", $FontType:"Regular") {
+  src:	url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff2?v=#{$FontVersion}') format('woff2'),
+  url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff?v=#{$FontVersion}') format('woff'),
+  url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.ttf?v=#{$FontVersion}') format('truetype');
+}
+
+$FontPath: "/assets/fonts/Roboto" !default;
+$FontName: "Roboto" !default;
+$FontVersion: "1.1.0" !default;
+
+@import "roboto/Thin";
+//@import "roboto/ThinItalic";
+@import "roboto/Light";
+//@import "roboto/LightItalic";
+@import "roboto/Regular";
+@import "roboto/Italic";
+@import "roboto/Medium";
+//@import "roboto/MediumItalic";
+@import "roboto/Bold";
+//@import "roboto/BoldItalic";
+//@import "roboto/Black";
+//@import "roboto/BlackItalic";
+

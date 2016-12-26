@@ -1,0 +1,5 @@
+[
+  "bower_components/angular-smart-table/dist/smart-table.min.js",
+  "bower_components/ng-file-upload/ng-file-upload.min.js",
+  "bower_components/angular-material/angular-material.css"
+]
