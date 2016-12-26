@@ -30,7 +30,9 @@ class ImageType extends AbstractType
                 $data = $event->getData();
                 if (!empty($data['tags'])) {
                     foreach ($data['tags'] as $i => $tag) {
-                        $data['tags'][$i] = ['tagName' => $tag];
+                        if (is_string($tag)) {
+                            $data['tags'][$i] = ['tagName' => $tag];
+                        }
                     }
 
                     $event->setData($data);
@@ -49,6 +51,6 @@ class ImageType extends AbstractType
 
     public function getName()
     {
-        return 'image';
+        return 'app_image_type';
     }
 }

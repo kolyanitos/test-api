@@ -29,6 +29,6 @@ class ImageTagType extends AbstractType
 
     public function getName()
     {
-        return 'image_tag';
+        return 'app_image_tag_type';
     }
 }

@@ -43,6 +43,7 @@ class Image implements \JsonSerializable
      * @Assert\NotNull(message="You need to upload image")
      * @Assert\Image()
      * @Vich\UploadableField(mapping="images", fileNameProperty="imageName")
+     * @JMSSerializer\Groups({"create", "update"})
      */
     protected $imageFile;
 
@@ -73,7 +74,7 @@ class Image implements \JsonSerializable
      *
      * @JMSSerializer\Expose
      * @JMSSerializer\Type("ArrayCollection<AppBundle\Document\ImageTag>")
-     * @JMSSerializer\Groups({"images"})
+     * @JMSSerializer\Groups({"images", "create", "update"})
      */
     protected $tags;
 

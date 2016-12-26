@@ -8,5 +8,6 @@ fos_rest:
     param_fetcher_listener: true
     view:
         view_response_listener: 'force'
+        empty_content: 404
         formats:
             json: true

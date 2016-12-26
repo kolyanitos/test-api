@@ -11,7 +11,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -33,7 +32,7 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      *  }
      * )
      *
-     * @param int $id the user id
+     * @param string $id the image id
      *
      * @throws NotFoundHttpException when does not exist
      *
@@ -51,7 +50,10 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      *
      * @ApiDoc(
      *  section="Images",
-     *  output = "AppBundle\Document\Image",
+     *  output = "array<AppBundle\Document\Image> as results",
+     *  filters={
+     *      {"name"="filter", "dataType"="string"}
+     *  },
      *  statusCodes = {
      *    200 = "Returned when successful",
      *  }
@@ -67,15 +69,15 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
         return $view;
     }
 
-
-
     /**
      * Creates a new Image
      *
      * @ApiDoc(
      *  section="Images",
-     *  input = "AppBundle\Form\Type\ImageFormType",
+     *  resource=true,     
+     *  input = "AppBundle\Document\Image",
      *  output = "AppBundle\Document\Image",
+     *  groups = {"create"},
      *  statusCodes={
      *         201="Returned when a new Image has been successfully created",
      *         400="Returned when the posted data is invalid"
@@ -90,12 +92,7 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
             $this->addRequestImage($request);
             $image = $this->getHandler()->post($request->request->all());
 
-            $routeOptions = [
-                'id' => $image->getId(),
-                '_format' => $request->get('_format'),
-            ];
-
-            return $this->routeRedirectView('get_images', $routeOptions, Response::HTTP_CREATED);
+            return $this->view($image, Response::HTTP_CREATED);
         } catch (InvalidFormException $e) {
             return $e->getForm();
         }
@@ -108,8 +105,9 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      * @ApiDoc(
      *   section="Images",
      *   resource = true,
-     *   input = "AppBundle\Form\Type\ImageType",
+     *   input = "AppBundle\Document\Image",
      *   output = "AppBundle\Document\Image",
+     *   groups = {"update"},
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when errors",
@@ -118,33 +116,36 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      * )
      *
      * @param Request $request the request object
-     * @param int $id the account id
+     * @param string $id the account id
      *
-     * @return FormTypeInterface|RouteRedirectView
+     * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when does not exist
      */
     public function patchAction(Request $request, $id) {
         $image = $this->getRepository()->findOneById($id);
 
-        try {
-            $this->addRequestImage($request);
-            $image = $this->getHandler()->patch(
-                $image,
-                $request->request->all()
-            );
+        if ($image) {
+            try {
+                $this->addRequestImage($request);
+                $image = $this->getHandler()->patch(
+                    $image,
+                    $request->request->all()
+                );
 
-            $routeOptions = [
-                'id' => $image->getId(),
-                '_format' => $request->get('_format'),
-            ];
+                $routeOptions = [
+                    'id' => $image->getId(),
+                    '_format' => $request->get('_format'),
+                ];
 
-            return $this->routeRedirectView('get_images', $routeOptions, Response::HTTP_NO_CONTENT);
+                return $this->routeRedirectView('get_images', $routeOptions, Response::HTTP_NO_CONTENT);
 
-        } catch (InvalidFormException $e) {
-
-            return $e->getForm();
+            } catch (InvalidFormException $e) {
+                return $e->getForm();
+            }
         }
+
+        return $this->view($image);
     }
 
 
@@ -154,8 +155,9 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      * @ApiDoc(
      *   section="Images",
      *   resource = true,
-     *   input = "AppBundle\Form\ImageType",
+     *   input = "AppBundle\Document\Image",
      *   output = "AppBundle\Document\Image",
+     *   groups = {"update"},
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when errors",
@@ -164,33 +166,36 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      * )
      *
      * @param Request $request the request object
-     * @param int $id the account id
+     * @param string $id the account id
      *
-     * @return FormTypeInterface|RouteRedirectView
+     * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when does not exist
      */
     public function putAction(Request $request, $id) {
         $image = $this->getRepository()->findOneById($id);
 
-        try {
-            $this->addRequestImage($request);
-            $image = $this->getHandler()->put(
-                $image,
-                $request->request->all()
-            );
+        if ($image) {
+            try {
+                $this->addRequestImage($request);
+                $image = $this->getHandler()->put(
+                    $image,
+                    $request->request->all()
+                );
 
-            $routeOptions = [
-                'id' => $image->getId(),
-                '_format' => $request->get('_format'),
-            ];
+                $routeOptions = [
+                    'id' => $image->getId(),
+                    '_format' => $request->get('_format'),
+                ];
 
-            return $this->routeRedirectView('get_images', $routeOptions, Response::HTTP_NO_CONTENT);
+                return $this->routeRedirectView('get_images', $routeOptions, Response::HTTP_NO_CONTENT);
 
-        } catch (InvalidFormException $e) {
-
-            return $e->getForm();
+            } catch (InvalidFormException $e) {
+                return $e->getForm();
+            }
         }
+
+        return $this->view($image);
     }
 
 
@@ -202,19 +207,23 @@ class ImagesController extends FOSRestController implements ClassResourceInterfa
      *  description="Deletes an existing Image",
      *  statusCodes={
      *         204="Returned when an existing Image has been successfully deleted",
-     *         403="Returned when trying to delete a non existent Image"
+     *         404="Returned when trying to delete a non existent Image"
      *     }
      * )
      *
-     * @param int $id the account id
+     * @param string $id the account id
      * @return View
      */
     public function deleteAction($id) {
         $image = $this->getRepository()->findOneById($id);
 
-        $this->getHandler()->delete($image);
+        if ($image) {
+            $this->getHandler()->delete($image);
 
-        return new View(null, Response::HTTP_NO_CONTENT);
+            return new View(null, Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->view($image);
     }
 
     /**

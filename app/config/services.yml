@@ -17,12 +17,12 @@ services:
     app.form.type.image:
         class: AppBundle\Form\Type\ImageType
         tags:
-            - { name: form.type, alias: image_form }
+            - { name: form.type, alias: app_image_type }
 
     app.form.type.image_tag:
         class: AppBundle\Form\Type\ImageTagType
         tags:
-            - { name: form.type, alias: image_tag_form }
+            - { name: form.type, alias: app_image_tag_type }
 
     app.form.handler.form_handler:
         class: AppBundle\Form\Handler\FormHandler
